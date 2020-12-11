@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="EModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="EModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TechObjectSet" EntityType="EModel.TechObject" />
+    <EntitySet Name="MaintenanceWorksSet" EntityType="EModel.MaintenanceWorks" />
+    <AssociationSet Name="TechObjectMaintenanceWorks" Association="EModel.TechObjectMaintenanceWorks">
+      <End Role="TechObject" EntitySet="TechObjectSet" />
+      <End Role="MaintenanceWorks" EntitySet="MaintenanceWorksSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TechObject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="ProductionDate" Type="String" Nullable="false" />
+    <Property Name="ShippingDate" Type="String" Nullable="false" />
+    <Property Name="WarrantyPeriod" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MaintenanceWorks" Relationship="EModel.TechObjectMaintenanceWorks" FromRole="TechObject" ToRole="MaintenanceWorks" />
+    <Property Name="Name" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaintenanceWorks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="Type" Type="String" Nullable="false" />
+    <Property Name="WorkshipDate" Type="String" Nullable="false" />
+    <Property Name="WorkshipTime" Type="String" Nullable="false" />
+    <NavigationProperty Name="TechObject" Relationship="EModel.TechObjectMaintenanceWorks" FromRole="MaintenanceWorks" ToRole="TechObject" />
+    <Property Name="EngineerID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="TechObjectMaintenanceWorks">
+    <End Type="EModel.TechObject" Role="TechObject" Multiplicity="1" />
+    <End Type="EModel.MaintenanceWorks" Role="MaintenanceWorks" Multiplicity="*" />
+  </Association>
+</Schema>

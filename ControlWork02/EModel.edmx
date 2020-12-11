@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EModelStoreContainer">
+    <EntitySet Name="TechObjectSet" EntityType="EModel.Store.TechObjectSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MaintenanceWorksSet" EntityType="EModel.Store.MaintenanceWorksSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TechObjectMaintenanceWorks" Association="EModel.Store.TechObjectMaintenanceWorks">
+      <End Role="TechObject" EntitySet="TechObjectSet" />
+      <End Role="MaintenanceWorks" EntitySet="MaintenanceWorksSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TechObjectSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ProductionDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ShippingDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WarrantyPeriod" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MaintenanceWorksSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WorkshipDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WorkshipTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EngineerID" Type="int" Nullable="false" />
+    <Property Name="TechObject_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="TechObjectMaintenanceWorks">
+    <End Role="TechObject" Type="EModel.Store.TechObjectSet" Multiplicity="1" />
+    <End Role="MaintenanceWorks" Type="EModel.Store.MaintenanceWorksSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TechObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MaintenanceWorks">
+        <PropertyRef Name="TechObject_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="EModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="EModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TechObjectSet" EntityType="EModel.TechObject" />
+          <EntitySet Name="MaintenanceWorksSet" EntityType="EModel.MaintenanceWorks" />
+          <AssociationSet Name="TechObjectMaintenanceWorks" Association="EModel.TechObjectMaintenanceWorks">
+            <End Role="TechObject" EntitySet="TechObjectSet" />
+            <End Role="MaintenanceWorks" EntitySet="MaintenanceWorksSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TechObject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="ProductionDate" Type="String" Nullable="false" />
+          <Property Name="ShippingDate" Type="String" Nullable="false" />
+          <Property Name="WarrantyPeriod" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MaintenanceWorks" Relationship="EModel.TechObjectMaintenanceWorks" FromRole="TechObject" ToRole="MaintenanceWorks" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaintenanceWorks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="WorkshipDate" Type="String" Nullable="false" />
+          <Property Name="WorkshipTime" Type="String" Nullable="false" />
+          <NavigationProperty Name="TechObject" Relationship="EModel.TechObjectMaintenanceWorks" FromRole="MaintenanceWorks" ToRole="TechObject" />
+          <Property Name="EngineerID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="TechObjectMaintenanceWorks">
+          <End Type="EModel.TechObject" Role="TechObject" Multiplicity="1" />
+          <End Type="EModel.MaintenanceWorks" Role="MaintenanceWorks" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EModelStoreContainer" CdmEntityContainer="EModelContainer">
+    <EntitySetMapping Name="TechObjectSet">
+      <EntityTypeMapping TypeName="IsTypeOf(EModel.TechObject)">
+        <MappingFragment StoreEntitySet="TechObjectSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
+          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+          <ScalarProperty Name="WarrantyPeriod" ColumnName="WarrantyPeriod" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaintenanceWorksSet">
+      <EntityTypeMapping TypeName="IsTypeOf(EModel.MaintenanceWorks)">
+        <MappingFragment StoreEntitySet="MaintenanceWorksSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="WorkshipDate" ColumnName="WorkshipDate" />
+          <ScalarProperty Name="WorkshipTime" ColumnName="WorkshipTime" />
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TechObjectMaintenanceWorks" TypeName="EModel.TechObjectMaintenanceWorks" StoreEntitySet="MaintenanceWorksSet">
+      <EndProperty Name="TechObject">
+        <ScalarProperty Name="Id" ColumnName="TechObject_Id" />
+      </EndProperty>
+      <EndProperty Name="MaintenanceWorks">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

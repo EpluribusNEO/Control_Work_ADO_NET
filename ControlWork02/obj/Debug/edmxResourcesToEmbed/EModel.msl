@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EModelStoreContainer" CdmEntityContainer="EModelContainer">
+    <EntitySetMapping Name="TechObjectSet">
+      <EntityTypeMapping TypeName="IsTypeOf(EModel.TechObject)">
+        <MappingFragment StoreEntitySet="TechObjectSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
+          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
+          <ScalarProperty Name="WarrantyPeriod" ColumnName="WarrantyPeriod" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaintenanceWorksSet">
+      <EntityTypeMapping TypeName="IsTypeOf(EModel.MaintenanceWorks)">
+        <MappingFragment StoreEntitySet="MaintenanceWorksSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="WorkshipDate" ColumnName="WorkshipDate" />
+          <ScalarProperty Name="WorkshipTime" ColumnName="WorkshipTime" />
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TechObjectMaintenanceWorks" TypeName="EModel.TechObjectMaintenanceWorks" StoreEntitySet="MaintenanceWorksSet">
+      <EndProperty Name="TechObject">
+        <ScalarProperty Name="Id" ColumnName="TechObject_Id" />
+      </EndProperty>
+      <EndProperty Name="MaintenanceWorks">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
